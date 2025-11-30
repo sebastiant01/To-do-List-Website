@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Settings{% endblock %}
+
+{% block content %}
+<h2>Settings</h2>
+
+<!-- Dark Mode Toggle Button -->
+<button id="darkModeButton" class="btn btn-secondary mb-3">
+    <span id="buttonText">Switch to Dark Mode</span>
+</button>
+
+<!-- Logout Button -->
+<form method="POST" action="{{ url_for('settings') }}" style="display: inline;">
+    <button type="submit" class="btn btn-danger">Logout</button>
+</form>
+
+<script>
+    const button = document.getElementById("darkModeButton");
+    const buttonText = document.getElementById("buttonText");
+
+    // Función para actualizar el texto del botón
+    function updateButtonText() {
+        if (document.body.classList.contains("dark-mode")) {
+            buttonText.textContent = "Switch to Light Mode";
+        } else {
+            buttonText.textContent = "Switch to Dark Mode";
+        }
+    }
+
+    // Actualizar el texto del botón al cargar la página
+    updateButtonText();
+
+    // Toggle del modo oscuro
+    button.addEventListener("click", () => {
+        document.body.classList.toggle("dark-mode");
+
+        if (document.body.classList.contains("dark-mode")) {
+            localStorage.setItem("theme", "dark");
+        } else {
+            localStorage.setItem("theme", "light");
+        }
+
+        // Actualizar el texto del botón después del cambio
+        updateButtonText();
+    });
+</script>
+{% endblock %}
