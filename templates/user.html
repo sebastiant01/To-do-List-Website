@@ -3,6 +3,14 @@
 {% block title %}User account{% endblock %}
 
 {% block content %}
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for msg in messages %}
+            <h6>{{msg}}</h6>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
 <h2>User account</h2>
 
 <p>Welcome {{name}} to your profile.</p>

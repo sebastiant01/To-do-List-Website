@@ -3,6 +3,14 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for msg in messages %}
+            <h6>{{msg}}</h6>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
 <form action="#" method="post">
     <h3>Name:</h3>
     <h4><input type="text" name="usname" /></h4>
