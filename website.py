@@ -1,5 +1,5 @@
 from flask import Flask, render_template, redirect, url_for, request, session, flash
-from .database.tables import database, Users, Tasks
+from database.tables import database, Users, Tasks
 from datetime import timedelta
 
 app = Flask(__name__)
