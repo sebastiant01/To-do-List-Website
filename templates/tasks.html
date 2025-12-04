@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}My Tasks{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>My Tasks</h2>
+    <a href="{{ url_for('create_task') }}" class="btn btn-primary">+ Add New Task</a>
+</div>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        {% for category, msg in messages %}
+            <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                {{ msg }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+{% if tasks %}
+    <div class="row">
+        {% for task in tasks %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 {% if task.status %}border-success{% endif %}">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <span class="badge badge-{% if task.priority_level == 'high' %}danger{% elif task.priority_level == 'medium' %}warning{% else %}secondary{% endif %}">
+                        {{ task.priority_level|upper }}
+                    </span>
+                    {% if task.status %}
+                        <span class="badge badge-success">✓ Completed</span>
+                    {% else %}
+                        <span class="badge badge-secondary">Pending</span>
+                    {% endif %}
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ task.title }}</h5>
+                    <p class="card-text">{{ task.description }}</p>
+                </div>
+                <div class="card-footer bg-transparent d-flex justify-content-between">
+                    <form method="POST" action="{{ url_for('tasks') }}" style="display: inline;">
+                        <input type="hidden" name="action" value="toggle_status">
+                        <input type="hidden" name="task_id" value="{{ task.id }}">
+                        <button type="submit" class="btn btn-sm btn-{% if task.status %}warning{% else %}success{% endif %}">
+                            {% if task.status %}Mark as Pending{% else %}Mark as Complete{% endif %}
+                        </button>
+                    </form>
+
+                    <div>
+                        <a href="{{ url_for('modify_task', task_id=task.id) }}" class="btn btn-sm btn-info">Edit</a>
+                        <form method="POST" action="{{ url_for('tasks') }}" style="display: inline;"
+                              onsubmit="return confirm('Are you sure you want to delete this task?');">
+                            <input type="hidden" name="action" value="delete">
+                            <input type="hidden" name="task_id" value="{{ task.id }}">
+                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="alert alert-info text-center">
+        <h4>No tasks yet!</h4>
+        <p>Create your first task to get started.</p>
+        <a href="{{ url_for('create_task') }}" class="btn btn-primary mt-2">Create Task</a>
+    </div>
+{% endif %}
+{% endblock %}

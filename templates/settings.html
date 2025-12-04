@@ -4,14 +4,13 @@
 
 {% block content %}
 <h2>Settings</h2>
-
-    {% with messages = get_flashed_messages() %}
+{% with messages = get_flashed_messages() %}
       {% if messages %}
         {% for msg in messages %}
             <h6>{{msg}}</h6>
         {% endfor %}
       {% endif %}
-    {% endwith %}
+{% endwith %}
 <!-- Dark Mode Toggle Button -->
 <button id="darkModeButton" class="btn btn-secondary mb-3">
     <span id="buttonText">Switch to Dark Mode</span>
@@ -19,7 +18,14 @@
 
 <!-- Logout Button -->
 <form method="POST" action="{{ url_for('settings') }}" style="display: inline;">
+    <input type="hidden" name="action" value="logout">
     <button type="submit" class="btn btn-danger">Logout</button>
+</form>
+
+<!-- Delete Account Button -->
+<form method="POST" action="{{ url_for('settings') }}" style="display: inline;" onsubmit="return confirm('Are you sure you want to delete your account? This action cannot be undone.');">
+    <input type="hidden" name="action" value="delete">
+    <button type="submit" class="btn btn-dark">Delete Account</button>
 </form>
 
 <script>

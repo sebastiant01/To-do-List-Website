@@ -3,13 +3,13 @@
 {% block title %}Login{% endblock %}
 
 {% block content %}
-{% with messages = get_flashed_messages() %}
+    {% with messages = get_flashed_messages() %}
       {% if messages %}
         {% for msg in messages %}
             <h6>{{msg}}</h6>
         {% endfor %}
       {% endif %}
-{% endwith %}
+    {% endwith %}
 
 <style>
     p, h2, h3, h4, h5, h6 {
@@ -23,6 +23,12 @@
 
     <h4>Password:</h4>
     <h4><input type="password" name="pw" /></h4>
+
+    <h4>E-mail:</h4>
+    <h4><input type="email" name="email" /></h4>
+
+    <h4>Telephone number:</h4>
+    <h4><input type="tel" name="telnum" /></h4>
 
     <h6><input type="submit" value="submit" /></h6>
 </form>

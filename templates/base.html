@@ -8,7 +8,6 @@
     <title>{% block title %}Todo App{% endblock %}</title>
     
     <style>
-        /* Estilos para el modo oscuro */
         body.dark-mode {
             background-color: #121212 !important;
             color: white !important;
@@ -74,9 +73,7 @@
 </head>
 
 <body>
-    <!-- Script para aplicar el tema ANTES de que se renderice la página -->
     <script>
-        // Aplicar el tema guardado inmediatamente
         if (localStorage.getItem("theme") === "dark") {
             document.body.classList.add("dark-mode");
         }
@@ -99,6 +96,9 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="login">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="registration">Register</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="user">User</a>
