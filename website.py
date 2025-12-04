@@ -1,10 +1,11 @@
 from flask import Flask, render_template, redirect, url_for, request, session, flash
 from database.tables import database, Users, Tasks
+import os
 from datetime import timedelta
 
 # We initialize all the setup we need for the application
 app = Flask(__name__)
-app.secret_key = "09042508"
+app.secret_key = os.environ.get('SECRET_KEY', 'dev-key-only-for-testing')
 app.permanent_session_lifetime = timedelta(days=1)
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///users.sqlite3"

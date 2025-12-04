@@ -9,6 +9,7 @@ wheels/
 *.md
 *.python-version
 *.sqlite3
+*.env
 
 # Virtual environments
 .venv
