@@ -1,17 +1,25 @@
 {% extends "base.html" %}
 
-{% block title %}User account{% endblock %}
+{% block title %}User Profile{% endblock %}
 
 {% block content %}
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
         {% for msg in messages %}
-            <h6>{{msg}}</h6>
+            <div class="alert alert-info">{{msg}}</div>
         {% endfor %}
-      {% endif %}
-    {% endwith %}
+    {% endif %}
+{% endwith %}
 
-<h2>User account</h2>
-
-<p>Welcome {{name}} to your profile.</p>
+<div class="card">
+    <div class="card-body text-center">
+        <h2>👤 User Profile</h2>
+        <p class="lead mt-4">Welcome back, <strong>{{name}}</strong>!</p>
+        <hr>
+        <div class="mt-4">
+            <a href="/tasks" class="btn btn-primary mr-2">View My Tasks</a>
+            <a href="/settings" class="btn btn-secondary">Settings</a>
+        </div>
+    </div>
+</div>
 {% endblock %}

@@ -1,17 +1,47 @@
 {% extends "base.html" %}
 
-{% block title %}Home page{% endblock %}
+{% block title %}Home{% endblock %}
 
 {% block content %}
-<style>
-    h2, h3, h4, h5 {
-        text-align: center;
-    }
-</style>
+<div class="text-center mt-5">
+    <h1 class="mb-4">Welcome to To-do App</h1>
+    <p class="lead">A simple way to manage your tasks</p>
 
-<h2>Welcome to my website</h2>
-<h4>Here, you can:</h4>
-<h4>* Create tasks</h4>
-<h4>* Log in</h4>
-<h4>* Check your user profile</h4>
+    <div class="mt-5">
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <h3>📝</h3>
+                        <h5>Create Tasks</h5>
+                        <p>Add and organize your daily tasks</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <h3>👤</h3>
+                        <h5>Personal Account</h5>
+                        <p>Keep your tasks secure and private</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <h3>✅</h3>
+                        <h5>Track Progress</h5>
+                        <p>Mark tasks as complete</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-5">
+        <a href="/registration" class="btn btn-primary btn-lg mr-2">Get Started</a>
+        <a href="/login" class="btn btn-outline-primary btn-lg">Login</a>
+    </div>
+</div>
 {% endblock %}

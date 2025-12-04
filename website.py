@@ -2,6 +2,7 @@ from flask import Flask, render_template, redirect, url_for, request, session, f
 from database.tables import database, Users, Tasks
 from datetime import timedelta
 
+# We initialize all the setup we need for the application
 app = Flask(__name__)
 app.secret_key = "09042508"
 app.permanent_session_lifetime = timedelta(days=1)
@@ -31,10 +32,14 @@ def tasks():
         flash(message="You need to log in to view your tasks.", category="info")
         return redirect(url_for("login"))
 
+    # We get the username of the user from the "session" dict, and search the user
+    # in the database.
     username: str = session["username"]
     user: Users = Users.query.filter_by(name=username).first()
 
     if request.method == "POST":
+        # This is to distinguish what action is performing at the moment, and which button
+        # was clicked.
         action_button: str = request.form.get("action")
         task_id: str = request.form.get("task_id")
         task: Tasks = Tasks.query.filter_by(id=task_id, user_id=user.id).first()
@@ -56,6 +61,7 @@ def tasks():
                 flash(message="Task not found", category="error")
         return redirect(url_for("tasks"))
 
+    # We go into the database and store all the user's tasks to display it.
     user_tasks = Tasks.query.filter_by(user_id=user.id).all()
     return render_template("tasks.html", tasks=user_tasks)
 
@@ -77,8 +83,6 @@ def create_task():
         username = session["username"]
         user: Users = Users.query.filter_by(name=username).first()
 
-        print(f"User found: {user}, User ID: {user.id if user else 'None'}")
-
         if not user:
             flash(message="User not found", category="info")
             return redirect(url_for("login"))
@@ -86,13 +90,13 @@ def create_task():
         new_task: Tasks = Tasks(title=title, description=description, priority_level=priority_level, user_id=user.id, status=False)
         database.session.add(new_task)
         database.session.commit()
-        print(f"Task created with ID: {new_task.id}")
 
         flash(message="Task created successfully!", category="info")
         return redirect(url_for("tasks"))
 
     return render_template("create_task.html")
 
+# We capture the task id in tasks(), and then pass the value into this function.
 @app.route("/modify_task/<task_id>", methods=["GET", "POST"])
 def modify_task(task_id):
     if "username" not in session:
@@ -106,12 +110,14 @@ def modify_task(task_id):
         flash(message="User not found", category="info")
         return redirect(url_for("login"))
 
+    # We search that specific task with the id we obtained from the parameter
     task: Tasks = Tasks.query.filter_by(id=task_id, user_id=user.id).first()
     if not task:
         flash(message="Task not found, or you don't have permission to modify it.", category="info")
         return redirect(url_for("tasks"))
     
     if request.method == "POST":
+        # We request to get the user's input
         title: str = request.form.get("title")
         description: str = request.form.get("description")
         priority_level: str = request.form.get("priority_level")
@@ -120,7 +126,8 @@ def modify_task(task_id):
         if not title or not description or not priority_level:
             flash(message="All the fields have to be filled.", category="info")
             return render_template("modify_task.html")
-        
+
+        # We access to each attribute of the task and modify it with the new values.
         task.title = title
         task.description = description
         task.priority_level = priority_level
@@ -136,6 +143,7 @@ def modify_task(task_id):
 @app.route("/registration", methods=["GET", "POST"])
 def registration():
     if request.method == "POST":
+        # We request to get the value of the variables
         username: str = request.form["username"]
         password: str = request.form["pw"]
         email: str = request.form["email"]
@@ -182,6 +190,7 @@ def login():
 @app.route("/settings", methods=["GET", "POST"])
 def settings():
     if request.method == "POST":
+        # Same as before, we need to distinguish which button was clicked.
         action_button: str = request.form.get("action")
 
         if action_button == "logout":
