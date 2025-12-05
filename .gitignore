@@ -6,7 +6,6 @@ dist/
 wheels/
 *.egg-info
 *.toml
-*.md
 *.python-version
 *.sqlite3
 *.env
