@@ -152,6 +152,21 @@ def registration():
 
         found_user = Users.query.filter_by(name=username, email=email).first()
 
+        if len(username) <= 7:
+            flash(message="The username must be at least 8 characters.")
+            return redirect(url_for("registration"))
+
+        has_letter: bool = any(char.isalpha() for char in password)
+        has_number: bool = any(char.isdigit() for char in password)
+
+        if not (has_letter and has_number):
+            flash(message="The password must contain both letters and numbers.")
+            return redirect(url_for("registration"))
+
+        if len(password) <= 7:
+            flash(message="The password must be at least 8 characters.")
+            return redirect(url_for("registration"))
+
         if found_user:
             flash(message="There already exists a user with the same username and/or e-mail. Try logging in.")
             return redirect(url_for("login"))
