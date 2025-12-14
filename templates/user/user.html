@@ -17,8 +17,8 @@
         <p class="lead mt-4">Welcome back, <strong>{{name}}</strong>!</p>
         <hr>
         <div class="mt-4">
-            <a href="/tasks" class="btn btn-primary mr-2">View My Tasks</a>
-            <a href="/settings" class="btn btn-secondary">Settings</a>
+            <a href="{{ url_for('tasks.list_tasks') }}" class="btn btn-primary mr-2">View My Tasks</a>
+            <a href="{{ url_for('user.settings') }}" class="btn btn-secondary">Settings</a>
         </div>
     </div>
 </div>

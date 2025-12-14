@@ -99,19 +99,19 @@
                     <a class="nav-link" href="/">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/tasks">Tasks</a>
+                    <a class="nav-link" href="{{ url_for('tasks.list_tasks') }}">Tasks</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/login">Login</a>
+                    <a class="nav-link" href="{{ url_for('auth.login') }}">Login</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/registration">Register</a>
+                    <a class="nav-link" href="{{ url_for('auth.registration') }}">Register</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/user">User</a>
+                    <a class="nav-link" href="{{ url_for('user.profile') }}">User</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/settings">Settings</a>
+                    <a class="nav-link" href="{{ url_for('user.settings') }}">Settings</a>
                 </li>
             </ul>
         </div>

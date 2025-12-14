@@ -26,12 +26,11 @@
     <div class="card-body">
         <h5>Account Actions</h5>
 
-        <form method="POST" action="{{ url_for('settings') }}" style="display: inline;">
-            <input type="hidden" name="action" value="logout">
+        <form method="POST" action="{{ url_for('auth.logout') }}" style="display: inline;">
             <button type="submit" class="btn btn-warning mt-2">Logout</button>
         </form>
 
-        <form method="POST" action="{{ url_for('settings') }}" class="mt-2" style="display: inline;"
+        <form method="POST" action="{{ url_for('user.settings') }}" class="mt-2" style="display: inline;"
               onsubmit="return confirm('Are you sure you want to delete your account? This action cannot be undone.');">
             <input type="hidden" name="action" value="delete">
             <button type="submit" class="btn btn-danger">Delete Account</button>
