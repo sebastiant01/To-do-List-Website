@@ -1,0 +1,7 @@
+[project]
+name = "to-do-list"
+version = "0.1.0"
+description = "This project consists on building a website based on a to-do list application. In this project, I used Python, HTML, JavaScript, HTML, CSS and PostgreSQL to build it, I used Flask as well to make this possible."
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = ["flask", "os", "flask_sqlalchemy"]
