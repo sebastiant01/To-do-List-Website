@@ -3,6 +3,7 @@ from database.tables import database, Users
 
 auth_bp = Blueprint("auth", __name__, url_prefix="/auth")
 
+
 @auth_bp.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
@@ -22,8 +23,9 @@ def login():
         if "username" in session:
             flash(message="Already logged in.", category="info")
             return redirect(url_for("user.profile"))
-        
+
         return render_template("auth/login.html")
+
 
 @auth_bp.route("/registration", methods=["GET", "POST"])
 def registration():
@@ -52,7 +54,9 @@ def registration():
         found_user = Users.query.filter_by(name=username, email=email).first()
 
         if found_user:
-            flash(message="There already exists a user with the same username and/or e-mail. Try logging in.")
+            flash(
+                message="There already exists a user with the same username and/or e-mail. Try logging in."
+            )
             return redirect(url_for("auth.login"))
 
         user = Users(username, password, email, telephone_number)
@@ -64,6 +68,7 @@ def registration():
         return redirect(url_for("auth.login"))
 
     return render_template("auth/registration.html")
+
 
 @auth_bp.route("/logout", methods=["POST"])
 def logout():
