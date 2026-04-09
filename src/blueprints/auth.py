@@ -1,5 +1,8 @@
 from flask import render_template, redirect, url_for, flash, session, request, Blueprint
-from database.tables import database, Users
+from flask_sqlalchemy import SQLAlchemy
+from models.Users import Users
+
+database = SQLAlchemy()
 
 auth_bp = Blueprint("auth", __name__, url_prefix="/auth")
 

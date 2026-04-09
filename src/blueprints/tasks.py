@@ -1,7 +1,12 @@
 from flask import render_template, redirect, url_for, flash, session, request, Blueprint
-from database.tables import database, Tasks, Users
+from flask_sqlalchemy import SQLAlchemy
+from models.Users import Users
+from models.Tasks import Tasks
+
+database = SQLAlchemy()
 
 tasks_bp = Blueprint("tasks", __name__, url_prefix="/tasks")
+
 
 @tasks_bp.route("/", methods=["GET", "POST"])
 def list_tasks():
@@ -40,12 +45,13 @@ def list_tasks():
                 flash(message="Task deleted!", category="success")
             else:
                 flash(message="Task not found", category="error")
-        
+
         return redirect(url_for("tasks.list_tasks"))
-    
+
     # We go into the database and store all the user's tasks to display it.
     user_tasks = Tasks.query.filter_by(user_id=user.id).all()
     return render_template("tasks/tasks.html", tasks=user_tasks)
+
 
 @tasks_bp.route("/create", methods=["GET", "POST"])
 def create_task():
@@ -61,20 +67,20 @@ def create_task():
         if not title or not description or not priority_level:
             flash(message="All the fields have to be filled.", category="info")
             return render_template("tasks/create_task.html")
-        
+
         username = session["username"]
         user = Users.query.filter_by(name=username).first()
 
         if not user:
             flash(message="User not found", category="info")
             return redirect(url_for("auth.login"))
-        
+
         new_task = Tasks(
-            title=title, 
-            description=description, 
-            priority_level=priority_level, 
-            user_id=user.id, 
-            status=False
+            title=title,
+            description=description,
+            priority_level=priority_level,
+            user_id=user.id,
+            status=False,
         )
         database.session.add(new_task)
         database.session.commit()
@@ -84,12 +90,13 @@ def create_task():
 
     return render_template("tasks/create_task.html")
 
+
 @tasks_bp.route("/<int:task_id>/edit", methods=["GET", "POST"])
 def modify_task(task_id):
     if "username" not in session:
         flash(message="You need to log in to modify your tasks.", category="info")
         return redirect(url_for("auth.login"))
-    
+
     username = session["username"]
     user = Users.query.filter_by(name=username).first()
 
@@ -99,11 +106,14 @@ def modify_task(task_id):
 
     # We search that specific task with the id we obtained from the parameter
     task = Tasks.query.filter_by(id=task_id, user_id=user.id).first()
-    
+
     if not task:
-        flash(message="Task not found, or you don't have permission to modify it.", category="info")
+        flash(
+            message="Task not found, or you don't have permission to modify it.",
+            category="info",
+        )
         return redirect(url_for("tasks.list_tasks"))
-    
+
     if request.method == "POST":
         # We request to get the user's input
         title = request.form.get("title")
@@ -120,10 +130,10 @@ def modify_task(task_id):
         task.description = description
         task.priority_level = priority_level
         task.status = bool(int(status))
-        
+
         database.session.commit()
 
         flash(message="Task modified correctly!", category="info")
         return redirect(url_for("tasks.list_tasks"))
-    
+
     return render_template("tasks/modify_task.html", task=task)
